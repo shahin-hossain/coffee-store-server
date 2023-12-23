@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+require('dotenv').config()
 const { MongoClient, ServerApiVersion } = require('mongodb');
 
 const app = express();
@@ -9,14 +10,15 @@ const port = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-//user: coffeeMaster
-//pass: vBMHY3qq96TI1a8w
+//mongoDB user & password from .env
+//.env এর মধ্যে যা থাকবে তা github এ পাঠানো যাবে না। এর জন্য .gitignore file এর মধ্যে দিতে হবে।
+const user = process.env.DB_USER;
+const pass = process.env.DB_PASS;
 
 //mongoDB database config
+const uri = `mongodb+srv://${user}:${pass}@cluster0.throxid.mongodb.net/?retryWrites=true&w=majority`;
 
-// const uri = "mongodb+srv://<username>:<password>@cluster0.throxid.mongodb.net/?retryWrites=true&w=majority";
-const uri = "mongodb+srv://coffeeMaster:<password>@cluster0.throxid.mongodb.net/?retryWrites=true&w=majority";
-
+console.log(uri)
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
     serverApi: {
@@ -35,7 +37,7 @@ async function run() {
         console.log("Pinged your deployment. You successfully connected to MongoDB!");
     } finally {
         // Ensures that the client will close when you finish/error
-        await client.close();
+        // await client.close(); //এটা off করে রাখলে database সবসময় চলতে থাকবে।
     }
 }
 run().catch(console.dir);

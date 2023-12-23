@@ -2,7 +2,9 @@
  * Server init
  * npm i express cors dotenv
  * run express server 
+ * mongoDB add user coffeeMaster
  * mongoDB config add
+ * express dotenv setup
  *
  */
 
