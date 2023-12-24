@@ -18,7 +18,7 @@ const pass = process.env.DB_PASS;
 //mongoDB database config
 const uri = `mongodb+srv://${user}:${pass}@cluster0.throxid.mongodb.net/?retryWrites=true&w=majority`;
 
-console.log(uri)
+// console.log(uri)
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
     serverApi: {
@@ -32,6 +32,20 @@ async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
         await client.connect();
+
+        //database collection
+        const coffeeCollection = client.db('coffeeCollection').collection('coffee');
+
+        //post
+        app.post('/coffee', async (req, res) => {
+            const newCoffee = req.body;
+            console.log(newCoffee)
+            const result = await coffeeCollection.insertOne(newCoffee);
+
+            res.send(result);
+
+        })
+
         // Send a ping to confirm a successful connection
         await client.db("admin").command({ ping: 1 });
         console.log("Pinged your deployment. You successfully connected to MongoDB!");

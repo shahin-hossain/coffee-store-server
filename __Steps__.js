@@ -5,6 +5,9 @@
  * mongoDB add user coffeeMaster
  * mongoDB config add
  * express dotenv setup -> mongodb user /pass
+ * app.post('/coffee', (req, res) => {req.bod})
+ * send data to database coffeeCollection = client.db('coffeeCollection').collection('coffee')
+ * use const use = await coffeeCollection.insertOne(newCoffee);
  *
  */
 
@@ -16,5 +19,6 @@
  * create component addCoffee, UpdateCoffee
  * route setting 
  * create a form in add coffee comp with daisy UI
- * submit handle input field
+ * submit handle input field new, and make object
+ * set post method to backend - fetch('http:/', {method: 'POST', header:{}, body: JSON.Stringify(coffee)})
  */
