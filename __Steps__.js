@@ -4,7 +4,7 @@
  * run express server 
  * mongoDB add user coffeeMaster
  * mongoDB config add
- * express dotenv setup
+ * express dotenv setup -> mongodb user /pass
  *
  */
 
@@ -15,4 +15,6 @@
  * install daisy UI
  * create component addCoffee, UpdateCoffee
  * route setting 
+ * create a form in add coffee comp with daisy UI
+ * submit handle input field
  */
