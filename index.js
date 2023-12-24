@@ -34,12 +34,24 @@ async function run() {
         await client.connect();
 
         //database collection
+        // Connect to the "coffeeCollection" database and access its "coffee" collection 
+        // database এর মধ্যে “coffeeCollection” নামে একটি database create করে তার মধ্যে coffee নামে collection make করা হয়েছে।
+
         const coffeeCollection = client.db('coffeeCollection').collection('coffee');
 
-        //post
+        //Read data 
+        app.get('/coffee', async (req, res) => {
+            const cursor = coffeeCollection.find(); // cursor হলো database একটা pointer set করে। ঐ collection এর data গুলো নিয়ে আসে।
+            const result = await cursor.toArray(); // cursor কে toArray() করে use করতে হবে।
+            res.send(result)
+        })
+
+        //Post data
         app.post('/coffee', async (req, res) => {
             const newCoffee = req.body;
             console.log(newCoffee)
+
+            // Insert the defined document into the "coffee" collection // coffee collection এর মধ্যে coffee কে insert করা হয়েছে।
             const result = await coffeeCollection.insertOne(newCoffee);
 
             res.send(result);
