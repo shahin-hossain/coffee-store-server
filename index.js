@@ -11,6 +11,7 @@ app.use(cors());
 app.use(express.json());
 
 //mongoDB user & password from .env
+
 //.env এর মধ্যে যা থাকবে তা github এ পাঠানো যাবে না। এর জন্য .gitignore file এর মধ্যে দিতে হবে।
 const user = process.env.DB_USER;
 const pass = process.env.DB_PASS;
@@ -62,10 +63,34 @@ async function run() {
 
             // Insert the defined document into the "coffee" collection // coffee collection এর মধ্যে coffee কে insert করা হয়েছে।
             const result = await coffeeCollection.insertOne(newCoffee);
-
             res.send(result);
 
         })
+        //Put/Update data
+        app.put('/coffee/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedCoffee = req.body;
+            const filter = { _id: new ObjectId(id) }; // id অনুযায়ী data search করবে।
+            const option = { upsert: true }; // data update / insert করবে সে জন্য true করা হয়েছে।
+            const coffee = {
+                //$set হলো mongo DB এর একটি operator, $set এর মধ্যে update key-value গুলো দিতে হবে।
+                $set: {
+                    photo: updatedCoffee.photo,
+                    name: updatedCoffee.name,
+                    quantity: updatedCoffee.quantity,
+                    supplier: updatedCoffee.supplier,
+                    taste: updatedCoffee.taste,
+                    category: updatedCoffee.category,
+                    details: updatedCoffee.details
+                }
+            };
+            // coffeeCollection database এ updateOne দিয়ে items গুলো পাঠানো হয়েছে update এর জন্য।
+            const result = await coffeeCollection.updateOne(filter, coffee, option);
+
+            res.send(result)
+
+        })
+
         //Delete data 
         app.delete('/coffee/:id', async (req, res) => {
             const id = req.params.id;
